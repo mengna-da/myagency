@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <title>Collective Choices Display</title>
+    <link rel="stylesheet" href="/src/desktop.css">
+</head>
+<body>
+    <div class="top-banner">
+        <div class="top-marquee">
+            <span>No instructions received yet</span>
+            <span>No instructions received yet</span>
+        </div>
+    </div>
+    
+    <div class="display-container">
+        <!-- <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-value" id="totalVotes">0</div>
+                <div class="stat-label">Total Votes</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="uniqueChoices">0</div>
+                <div class="stat-label">Unique Choices</div>
+            </div>
+        </div> -->
+        
+        <div class="choices-container" id="choicesContainer">
+            <!-- <div class="choice-button">Smile</div> -->
+            <!-- audience selections will go here -->
+        </div>
+    </div>
+    
+    <button class="reset-button" id="resetButton">Reset</button>
+    
+    <!-- Socket.io CDN -->
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <script type="module" src="/src/desktop.js"></script>
+</body>
+</html> 

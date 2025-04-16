@@ -1,0 +1,130 @@
+.top-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 25px;
+    background-color: #FF00CC;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.top-marquee{
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .7rem;
+    min-width: 100%;
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 800;
+    animation: scroll 12s linear infinite reverse;
+  }
+
+@keyframes scroll {
+    from {
+        transform: translateX(calc(-100% - 2rem));
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* 
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: rgba(94, 149, 218, 0.2);
+    border-radius: 10px;
+}
+
+.stat-box {
+    text-align: center;
+    padding: 10px;
+}
+
+.stat-value {
+    font-size: 36px;
+    font-weight: bold;
+    color: #FC840D;
+}
+
+.stat-label {
+    font-size: 16px;
+    color: #333;
+} */
+
+.choices-container {
+    position: fixed;
+    right: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: #E2E2E2;
+    padding: 60px 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 0;
+}
+
+.choice-card {
+    display: flex;
+    justify-content: space-between;
+    padding:0;
+}
+
+.choice-button {
+    padding: 15px 20px;
+    border-radius: 30px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-family: "Space Mono", monospace;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px #FF00CC;
+    margin-right: 15px;
+    flex-shrink: 0;
+    min-width: 120px;
+    text-align: center;
+}
+
+.choice-count {
+    padding: 15px;
+    font-family: "Space Mono", monospace;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 1rem;
+}
+
+.reset-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 15px 30px;
+    background-color: #d9d9d9;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.no-choices-message {
+    text-align: center;
+    padding: 30px;
+    font-size: 18px;
+    color: #666;
+    display: none;
+} 
