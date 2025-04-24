@@ -1,4 +1,8 @@
-// Use the global Socket.io instance
+//use NPM socket package
+//import { io } from 'socket.io-client'; 
+import { io } from '/node_modules/socket.io-client/dist/socket.io.esm.min.js'; //specify the full path to the module
+
+// Initialize socket
 const socket = io();
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -32,6 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // const uniqueChoices = new Set(data.choices).size;
         // uniqueChoicesElement.textContent = uniqueChoices;
 
+        console.log("=== Updating Banner ===");
+        console.log("Current choices before selection:", currentChoices);
+        
         // Find the choice with highest count, and if multiple have same count, take the first one
         const topChoice = currentChoices.reduce((prev, current) => {
             if (current.count > prev.count) {
@@ -40,10 +47,29 @@ document.addEventListener('DOMContentLoaded', function() {
             return prev;
         });
         
-        // Remove the top choice from current choices
-        currentChoices = currentChoices.filter(choice => choice.choice !== topChoice.choice);
+        console.log("Selected top choice:", topChoice);
+        
+        // Update the banner with the top choice
         elements.topMarquee.innerHTML = `<span>${topChoice.choice}</span><span>${topChoice.choice}</span>`;
         updateChoicesDisplay();
+    }
+
+    function removeAndUpdateTopChoice() {
+        if (currentChoices.length === 0) {
+            return;
+        }
+        
+        // Find the current top choice
+        const topChoice = currentChoices.reduce((prev, current) => {
+            if (current.count > prev.count) {
+                return current;
+            }
+            return prev;
+        });
+        
+        console.log("Removing top choice:", topChoice.choice);
+        // Emit the top choice to be removed from server
+        socket.emit('removeTopChoice', topChoice.choice);
     }
     
     // Function to update choices display
@@ -69,6 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     socket.on('updateCollectiveChoices', (data) => {
+        console.log("=== Received Update ===");
+        console.log("Raw data received:", data);
+        
         // Create a map to count occurrences while preserving order
         const choiceMap = new Map();
         data.choices.forEach(choice => {
@@ -80,16 +109,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Convert map to array while preserving order
         currentChoices = Array.from(choiceMap.values());
+        console.log("Processed current choices:", currentChoices);
+        
+        // Update the display with current choices
         updateChoicesDisplay();
         
-        // Clear any existing interval
-        clearInterval(choiceInterval);
-        
-        // Immediately update the banner with the first top choice
+        // Update the banner with the top choice
         updateBannerWithTopChoice();
         
-        // Then start the interval for subsequent updates
-        choiceInterval = setInterval(updateBannerWithTopChoice, 15000);
+        // Only start the interval if it's not already running
+        if (!choiceInterval) {
+            // Then start the interval for removing and updating the top choice
+            choiceInterval = setInterval(removeAndUpdateTopChoice, 10000);
+            console.log("Started interval for removing top choices");
+        }
     });
     
     //Handle reset button

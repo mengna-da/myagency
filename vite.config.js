@@ -18,8 +18,10 @@ export default defineConfig({
   // Define the entry points
   root: '.',
   publicDir: 'public',
-  // Add Vercel-specific configuration
-  ssr: {
-    noExternal: ['socket.io-client']
+  optimizeDeps: {
+    include: ['socket.io-client']
+  },
+  resolve: {
+    dedupe: ['socket.io-client']
   }
 }); 

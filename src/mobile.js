@@ -1,8 +1,9 @@
-// Use the global Socket.io client library
-//import { io } from 'socket.io-client';
+//use NPM socket package
+//import { io } from 'socket.io-client'; 
+import { io } from '/node_modules/socket.io-client/dist/socket.io.esm.min.js'; //specify the full path to the module
 import { options, buttonsPerSet } from './options.js';
 
-// Use the global Socket.io instance
+// Initialize socket
 const socket = io();
 
 document.addEventListener('DOMContentLoaded', function() {
