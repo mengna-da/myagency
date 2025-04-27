@@ -63,9 +63,9 @@
 .choices-container {
     position: fixed;
     right: 0;
-    width: 300px;
+    width: 250px;
     height: 100vh;
-    background-color: #E2E2E2;
+    background-color: #e6e6e6;
     padding: 60px 20px;
     overflow-y: auto;
     display: flex;
@@ -86,9 +86,9 @@
     border: none;
     background-color: rgba(255, 255, 255, 0.8);
     font-family: "Space Mono", monospace;
-    font-weight: 600;
+    font-weight: 500;
     font-style: normal;
-    font-size: 1rem;
+    font-size: 15px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px #FF00CC;
     margin-right: 15px;
@@ -100,9 +100,9 @@
 .choice-count {
     padding: 15px;
     font-family: "Space Mono", monospace;
-    font-weight: 600;
+    font-weight: 500;
     font-style: normal;
-    font-size: 1rem;
+    font-size: 15px;
 }
 
 .reset-button {

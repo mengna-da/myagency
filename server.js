@@ -1,8 +1,8 @@
 import express from 'express';
 import { createServer } from 'node:http';
-import { Server } from 'socket.io';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { Server } from 'socket.io';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -54,6 +54,25 @@ io.on("connection", (socket) => {
     // Update collective choices
     collectiveChoices.choices.push(choice);
     collectiveChoices.totalVotes++;
+    
+    // Broadcast updated choices to all clients
+    io.emit('updateCollectiveChoices', collectiveChoices);
+  });
+  
+  // Handle removing top choice
+  socket.on('removeTopChoice', (topChoice) => {
+    console.log("=== Remove Top Choice Event ===");
+    console.log("Current choices before removal:", collectiveChoices.choices);
+    console.log("Top choice to remove:", topChoice);
+    
+    // Remove all instances of the top choice
+    collectiveChoices.choices = collectiveChoices.choices.filter(choice => choice !== topChoice);
+    
+    // Update total votes
+    collectiveChoices.totalVotes = collectiveChoices.choices.length;
+    
+    console.log("Choices after removal:", collectiveChoices.choices);
+    console.log("Total votes after removal:", collectiveChoices.totalVotes);
     
     // Broadcast updated choices to all clients
     io.emit('updateCollectiveChoices', collectiveChoices);

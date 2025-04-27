@@ -1,21 +1,22 @@
 export const options = [
     "Pose",
-    "Sit",
-    "Lie down",
+    "Sit Down",
+    // "Lie Down",
     "Smile",
     "Spin",
+    "Jump",
     "Walk left",
     "Walk right",
+    "Dissapear",
     "Wave",
-    "Drink coffee",
-    "Jump",
-    "Fight",
-    // "Paper plane",
-    // "Puzzle",
-    "Lipstick",
+    "Drink Coffee",
+    "Punch",
+    "Fold a Paper Plane",
+    "Play the Puzzle",
+    "Put on Lipstick",
     // "Bubble wrap",
-    "Mess up hair",
-    "Comb hair"
+    // "Mess Up Hair",
+    // "Comb Hair"
 ];
 
 export const buttonsPerSet = 10; 
