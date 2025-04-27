@@ -1,7 +1,7 @@
 import express from 'express';
-import { createServer } from 'http';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { createServer } from 'node:http';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { Server } from 'socket.io';
 
 const __filename = fileURLToPath(import.meta.url);
