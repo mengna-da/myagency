@@ -1,6 +1,6 @@
 //use NPM socket package
 //import { io } from 'socket.io-client'; 
-import { io } from '/node_modules/socket.io-client/dist/socket.io.esm.min.js'; //specify the full path to the module
+import { io } from 'https://cdn.socket.io/4.8.1/socket.io.esm.min.js';
 
 // Speech synthesis configuration
 const speechConfig = {
