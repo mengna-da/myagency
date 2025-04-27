@@ -2,6 +2,53 @@
 //import { io } from 'socket.io-client'; 
 import { io } from '/node_modules/socket.io-client/dist/socket.io.esm.min.js'; //specify the full path to the module
 
+// Speech synthesis configuration
+const speechConfig = {
+    rate: 1.0,    // Speech rate (0.1 to 10)
+    pitch: 1.2,   // Speech pitch (0 to 2)
+    volume: 1.0   // Speech volume (0 to 1)
+};
+
+// Track current banner text and its vote count
+let currentBannerText = '';
+let currentVoteCount = 0;
+
+// Function to speak text
+function speakText(text) {
+    // Only speak if the text is different from current banner text
+    if (text !== currentBannerText) {
+        // Cancel any ongoing speech
+        window.speechSynthesis.cancel();
+        
+        // Create a new speech utterance
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        // Configure the utterance
+        utterance.rate = speechConfig.rate;
+        utterance.pitch = speechConfig.pitch;
+        utterance.volume = speechConfig.volume;
+        
+        // Get available voices and find Fred
+        const voices = window.speechSynthesis.getVoices();
+        const maleVoice = voices.find(voice => voice.name === 'Fred');
+        
+        if (maleVoice) {
+            utterance.voice = maleVoice;
+        }
+        
+        // Speak the text
+        window.speechSynthesis.speak(utterance);
+        
+        // Update current banner text
+        currentBannerText = text;
+    }
+}
+
+// Load voices when they become available
+window.speechSynthesis.onvoiceschanged = function() {
+    console.log('Voices loaded:', window.speechSynthesis.getVoices());
+};
+
 // Initialize socket
 const socket = io();
 
@@ -30,16 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // // Update stats
-        // totalVotesElement.textContent = data.totalVotes;
-        // // Count unique choices
-        // const uniqueChoices = new Set(data.choices).size;
-        // uniqueChoicesElement.textContent = uniqueChoices;
-
         console.log("=== Updating Banner ===");
         console.log("Current choices before selection:", currentChoices);
         
-        // Find the choice with highest count, and if multiple have same count, take the first one
+        // Find the choice with highest count
         const topChoice = currentChoices.reduce((prev, current) => {
             if (current.count > prev.count) {
                 return current;
@@ -51,6 +92,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update the banner with the top choice
         elements.topMarquee.innerHTML = `<span>${topChoice.choice}</span><span>${topChoice.choice}</span>`;
+        
+        // Speak the top choice
+        speakText(topChoice.choice);
+        
+        // Reset the interval timer
+        if (choiceInterval) {
+            clearInterval(choiceInterval);
+        }
+        choiceInterval = setInterval(removeAndUpdateTopChoice, 10000);
+        console.log("Reset interval timer for new top choice");
+        
         updateChoicesDisplay();
     }
 
@@ -116,13 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update the banner with the top choice
         updateBannerWithTopChoice();
-        
-        // Only start the interval if it's not already running
-        if (!choiceInterval) {
-            // Then start the interval for removing and updating the top choice
-            choiceInterval = setInterval(removeAndUpdateTopChoice, 10000);
-            console.log("Started interval for removing top choices");
-        }
     });
     
     //Handle reset button
