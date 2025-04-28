@@ -11,7 +11,7 @@ const speechConfig = {
 
 // Track current banner text and its vote count
 let currentBannerText = '';
-let currentVoteCount = 0;
+let bannerTimeout = null;
 
 // Function to speak text
 function speakText(text) {
@@ -74,10 +74,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateBannerWithTopChoice() {
         if (currentChoices.length === 0) {
             elements.topMarquee.innerHTML = '<span>No instructions received yet</span><span>No instructions received yet</span>';
+            if (bannerTimeout) {
+                clearTimeout(bannerTimeout);
+                bannerTimeout = null;
+            }
             return;
         }
         
         console.log("=== Updating Banner ===");
+        console.log("Current time:", new Date().toISOString());
         console.log("Current choices before selection:", currentChoices);
         
         // Find the choice with highest count
@@ -90,23 +95,37 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log("Selected top choice:", topChoice);
         
-        // Update the banner with the top choice
-        elements.topMarquee.innerHTML = `<span>${topChoice.choice}</span><span>${topChoice.choice}</span>`;
+        // Get current banner text
+        const currentBannerText = elements.topMarquee.querySelector('span').textContent;
         
-        // Speak the top choice
-        speakText(topChoice.choice);
-        
-        // Reset the interval timer
-        if (choiceInterval) {
-            clearInterval(choiceInterval);
+        // Only update banner and reset timeout if the top choice has changed
+        if (currentBannerText !== topChoice.choice) {
+            // Update the banner with the top choice
+            elements.topMarquee.innerHTML = `<span>${topChoice.choice}</span><span>${topChoice.choice}</span>`;
+            
+            // Speak the top choice
+            speakText(topChoice.choice);
+            
+            // Clear any existing timeout
+            if (bannerTimeout) {
+                clearTimeout(bannerTimeout);
+            }
+            
+            // Set new timeout
+            bannerTimeout = setTimeout(() => {
+                console.log("Timeout triggered at:", new Date().toISOString());
+                removeAndUpdateTopChoice();
+            }, 12000);
+            
+            console.log("Set timeout for banner removal at:", new Date().toISOString());
         }
-        choiceInterval = setInterval(removeAndUpdateTopChoice, 10000);
-        console.log("Reset interval timer for new top choice");
         
         updateChoicesDisplay();
     }
 
     function removeAndUpdateTopChoice() {
+        console.log("=== Removing Top Choice ===");
+        console.log("Current time:", new Date().toISOString());
         if (currentChoices.length === 0) {
             return;
         }
@@ -175,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.resetButton.addEventListener('click', () => {
             if (confirm('Are you sure you want to reset all choices?')) {
                 socket.emit('resetChoices');
-                clearInterval(choiceInterval);
+                clearTimeout(bannerTimeout);
                 elements.topMarquee.innerHTML = '<span>No instructions received yet</span><span>No instructions received yet</span>';
             }
         });
