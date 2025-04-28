@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
             bannerTimeout = setTimeout(() => {
                 console.log("Timeout triggered at:", new Date().toISOString());
                 removeAndUpdateTopChoice();
-            }, 12000);
+            }, 15000);
             
             console.log("Set timeout for banner removal at:", new Date().toISOString());
         }
