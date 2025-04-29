@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return prev;
         });
         
-        console.log("Removing top choice:", topChoice.choice);
+        console.log("[Client] Removing top choice:", topChoice.choice);
         // Emit the top choice to be removed from server
         socket.emit('removeTopChoice', topChoice.choice);
     }
@@ -147,8 +147,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     socket.on('updateCollectiveChoices', (data) => {
-        console.log("=== Received Update ===");
-        console.log("Raw data received:", data);
+        console.log("[Client] Received collectiveChoices:", {
+            choices: data.choices,
+            totalVotes: data.totalVotes
+        });
         
         // Create a map to count occurrences while preserving order
         const choiceMap = new Map();
@@ -161,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Convert map to array while preserving order
         currentChoices = Array.from(choiceMap.values());
-        console.log("Processed current choices:", currentChoices);
         
         // Update the display with current choices
         updateChoicesDisplay();

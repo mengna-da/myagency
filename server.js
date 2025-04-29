@@ -49,7 +49,8 @@ io.on("connection", (socket) => {
   
   // Handle choice selection from mobile users
   socket.on('makeChoice', (choice) => {
-    console.log("Received choice from client " + socket.id + ":", choice);
+    console.log("[Server] New choice:", choice);
+    console.log("[Server] Current votes:", collectiveChoices.choices.length);
     
     // Update collective choices
     collectiveChoices.choices.push(choice);
@@ -61,9 +62,8 @@ io.on("connection", (socket) => {
   
   // Handle removing top choice
   socket.on('removeTopChoice', (topChoice) => {
-    console.log("=== Remove Top Choice Event ===");
-    console.log("Current choices before removal:", collectiveChoices.choices);
-    console.log("Top choice to remove:", topChoice);
+    console.log("[Server] Removing:", topChoice);
+    console.log("[Server] Votes before removal:", collectiveChoices.choices.length);
     
     // Remove all instances of the top choice
     collectiveChoices.choices = collectiveChoices.choices.filter(choice => choice !== topChoice);
@@ -71,8 +71,7 @@ io.on("connection", (socket) => {
     // Update total votes
     collectiveChoices.totalVotes = collectiveChoices.choices.length;
     
-    console.log("Choices after removal:", collectiveChoices.choices);
-    console.log("Total votes after removal:", collectiveChoices.totalVotes);
+    console.log("[Server] Votes after removal:", collectiveChoices.choices.length);
     
     // Broadcast updated choices to all clients
     io.emit('updateCollectiveChoices', collectiveChoices);
