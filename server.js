@@ -1,4 +1,4 @@
-//FOR DENO KV
+// 20250430 FOR DENO KV
 
 import express from 'express';
 import { createServer } from 'node:http';
@@ -127,6 +127,25 @@ io.on("connection", async (socket) => { // Make the connection handler async to 
     // The watchChoices function on each instance handles the broadcast.
   });
 
+  // Handle removing top choice - ADDED THIS io HANDLER
+  socket.on('removeTopChoice', async (topChoice) => { // Make the handler async
+    console.log("[Server] Removing:", topChoice);
+
+    // Get current state from KV
+    const currentState = await getCollectiveChoices();
+
+    // Remove all instances of the top choice
+    currentState.choices = currentState.choices.filter(choice => choice !== topChoice);
+
+    // Update total votes based on the filtered array
+    currentState.totalVotes = currentState.choices.length;
+
+    console.log("Votes after removal:", currentState.choices.length);
+
+    // Save the updated state back to KV
+    await setCollectiveChoices(currentState);
+  }); 
+  
   //Listen for this client to disconnect
   socket.on("disconnect", () => {
     console.log("A client has disconnected: " + socket.id);
