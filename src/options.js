@@ -1,6 +1,6 @@
 export const options = [
     "Pose",
-    "Sit Down",
+    // "Sit Down",
     // "Lie Down",
     "Watch",
     "Smile",
@@ -20,12 +20,12 @@ export const options = [
     "Tai Chi",
     "Disappear",
     "Zombie Get Up",
-    "Drink Coffee",
+    // "Drink Coffee",
     "Fold a Paper Plane",
     // "Play the Puzzle",
     "Put on Lipstick",
     "Use Bubble Wrap",
-    "Put on Blouser",
+    // "Put on Blouser",
     "Silly Dance"
     // "Mess Up Hair",
     // "Comb Hair"
