@@ -22,7 +22,7 @@ export const options = [
     "Zombie Get Up",
     // "Drink Coffee",
     "Fold a Paper Plane",
-    // "Play the Puzzle",
+    "Play the Puzzle",
     "Put on Lipstick",
     "Use Bubble Wrap",
     // "Put on Blouser",
