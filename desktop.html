@@ -6,6 +6,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.174.0/three.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.174.0/three.module.js"></script> -->
     <title>Collective Choices Display</title>
     <link rel="stylesheet" href="/src/desktop.css">
 </head>
@@ -18,16 +20,6 @@
     </div>
     
     <div class="display-container">
-        <!-- <div class="stats-container">
-            <div class="stat-box">
-                <div class="stat-value" id="totalVotes">0</div>
-                <div class="stat-label">Total Votes</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-value" id="uniqueChoices">0</div>
-                <div class="stat-label">Unique Choices</div>
-            </div>
-        </div> -->
         
         <div class="choices-container" id="choicesContainer">
             <!-- <div class="choice-button">Smile</div> -->
@@ -36,7 +28,29 @@
     </div>
     
     <button class="reset-button" id="resetButton">Reset</button>
-    
+
+    <!-- <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+        camera.position.z = 5;
+        function animate() { requestAnimationFrame(animate);
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+        renderer.render(scene, camera);
+        }
+        animate();
+        console.log("3js running");
+    </script> -->
+
+    <script type="module" src="/src/three.js"></script>
+
     <!-- Socket.io CDN
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script> -->
     <script type="module" src="/src/desktop.js"></script>
