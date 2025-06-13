@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <title>MyAgency Display</title>
+    <link rel="stylesheet" href="/src/desktop.css">
+</head>
+<body>
+    <div class="top-banner">
+        <div class="top-marquee">
+            <span>No instructions received yet</span>
+            <span>No instructions received yet</span>
+        </div>
+    </div>
+    
+    <div class="display-container">
+        <div class="sidebar">
+        <div class="choices-container" id="choicesContainer">
+            <!-- <div class="choice-button">Smile</div> --> <!-- for CSS testing -->
+            <!-- audience selections will go here-->
+        </div>
+        <div class="QRcode">
+            <img src="/public/QRcode.png" alt="QR code: myagency.deno.dev">
+            <span class="QRcode-text">Scan for Participation</span>
+        </div>
+        
+     </div>    
+    </div>
+    
+    <button class="reset-button" id="resetButton">Reset</button>
+    
+    <script type="module" src="/src/three.js"></script>
+    <script type="module" src="/src/desktop.js"></script>
+</body>
+</html> 

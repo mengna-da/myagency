@@ -1,0 +1,148 @@
+.top-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 25px;
+    background-color: #FF00CC;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.top-marquee{
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .7rem;
+    min-width: 100%;
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 800;
+    animation: scroll 12s linear infinite reverse;
+    padding-right: 20px;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(calc(-100% - 2rem));
+    }
+    to {
+        transform: translateX(2rem);
+    }
+}
+
+.sidebar {
+    position: fixed;
+    right: 0;
+    /* width: 300px;  */
+    height: 100vh;
+    background-color: #FF00CC; /* #deff04*/
+    /* padding: 60px 20px; */
+    padding-bottom: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 0;
+    padding-right:0;
+}
+
+.choices-container {
+    width: 250px;
+    height: 75vh;
+    background-color: #e6e6e6;
+    padding: 60px 20px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 0;
+}
+
+.QRcode {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    gap: 10px;
+}
+
+.QRcode img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 30px;
+    border: none;
+}
+
+.QRcode p {
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+}
+
+.choice-card {
+    display: flex;
+    justify-content: space-between;
+    padding:0;
+}
+
+.choice-button {
+    padding: 15px 20px;
+    border-radius: 30px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-family: "Space Mono", monospace;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px #FF00CC;
+    margin-right: 15px;
+    flex-shrink: 0;
+    min-width: 120px;
+    text-align: center;
+}
+
+.choice-count {
+    padding: 15px 0px;
+    font-family: "Space Mono", monospace;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 15px;
+}
+
+
+.reset-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 15px 30px;
+    background-color: #d9d9d9;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.no-choices-message {
+    text-align: center;
+    padding: 30px;
+    font-size: 18px;
+    color: #666;
+    display: none;
+} 
