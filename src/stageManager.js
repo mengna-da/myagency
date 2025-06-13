@@ -7,39 +7,42 @@ export const stageConfigs = {
   },
   1: { // Two avatars side by side
     positions: [
-      { x: -10, y: -30, z: 0 },
-      { x: 10, y: -30, z: 0 }
+      { x: -25, y: -30, z: 0 },
+      { x: 25, y: -30, z: 0 }
     ]
   },
-  2: { // Four avatars in a square formation
+  2: { // Four avatars in 2x2 
     positions: [
-      { x: -15, y: -30, z: -15 },
-      { x: 15, y: -30, z: -15 },
-      { x: -15, y: -30, z: 15 },
-      { x: 15, y: -30, z: 15 }
-    ]
+      { x: -20, y: -30, z: 0 }, //bottom left
+      { x: 20, y: -40, z: 0 },  //bottom right
+      { x: -45, y: -10, z: 0 }, //top left
+      { x: 30, y: 0, z: 0 }    //top right
+    ],
+    scale: 25
   },
-  3: { // Six avatars in a hexagonal formation
+  3: { // Six avatars in 3x2 
     positions: [
-      { x: 0, y: -30, z: -25 },      // Front
-      { x: -21.6, y: -30, z: -12.5 },  // Front left
-      { x: 21.6, y: -30, z: -12.5 },   // Front right
-      { x: -21.6, y: -30, z: 12.5 },   // Back left
-      { x: 21.6, y: -30, z: 12.5 },    // Back right
-      { x: 0, y: -30, z: 25 }        // Back
-    ]
+      { x: -30, y: -30, z: 0 }, // bottom left
+      { x: 10, y: -35, z: 0 },   // bottom center
+      { x: 40, y: -35, z: 0 },  // bottom right
+      { x: -50, y: -10, z: 0 },  // top left
+      { x: 0, y: -5, z: 0 },    // top center
+      { x: 30, y: 0, z: 0 }    // top right
+    ],
+    scale: 20
   },
-  4: { // Eight avatars in a circle formation
+  4: { // Eight avatars in 4x2
     positions: [
-      { x: 0, y: -30, z: -25 },      // Front
-      { x: -17.7, y: -30, z: -17.7 }, // Front left
-      { x: 17.7, y: -30, z: -17.7 },  // Front right
-      { x: -25, y: -30, z: 0 },      // Left
-      { x: 25, y: -30, z: 0 },       // Right
-      { x: -17.7, y: -30, z: 17.7 },  // Back left
-      { x: 17.7, y: -30, z: 17.7 },   // Back right
-      { x: 0, y: -30, z: 25 }        // Back
-    ]
+      { x: -45, y: -35, z: 0 }, // bottom left
+      { x: -10, y: -30, z: 0 }, // bottom left-center
+      { x: 15, y: -35, z: 0 },  // bottom right-center
+      { x: 40, y: -40, z: 0 },  // bottom right
+      { x: -50, y: 5, z: 0 },   // top left
+      { x: -20, y: -3, z: 0 },   // top left-center
+      { x: 10, y: 0, z: 0 },    // top right-center
+      { x: 45, y: -5, z: 0 }     // top right
+    ],
+    scale: 17
   }
 }
 
@@ -50,6 +53,7 @@ export class StageManager {
     this.animationManager = animationManager
     this.currentStage = 0
     this.visibleAvatars = [1] // Start with just avatar 1 visible
+    this.socket = window.socket // Get socket instance from window
   }
 
   updateStage(newStage) {
@@ -78,6 +82,12 @@ export class StageManager {
           config.positions[index].y,
           config.positions[index].z
         )
+        // Apply scale if defined in config
+        if (config.scale) {
+          this.meshes[meshName].scale.set(config.scale, config.scale, config.scale);
+        } else {
+          this.meshes[meshName].scale.set(30, 35, 30); // Reset to default scale
+        }
         this.visibleAvatars.push(index + 1)
         console.log(`Making avatar ${index + 1} visible`)
       } else if (this.meshes[meshName]) {
@@ -89,8 +99,36 @@ export class StageManager {
 
     console.log('Updated visible avatars:', this.visibleAvatars)
 
+    // Try to emit stage update to server
+    try {
+      if (window.socket && window.socket.connected) {
+        console.log('Emitting stage change:', newStage);
+        window.socket.emit('stageChange', newStage);
+      } else {
+        console.warn('Socket not connected, stage change not emitted');
+      }
+    } catch (error) {
+      console.error('Error emitting stage change:', error);
+    }
+
+    // Dispatch custom event for stage change
+    const event = new CustomEvent('stageChange', { detail: newStage });
+    window.dispatchEvent(event);
+
     // Notify animation manager of stage change
     this.animationManager.onStageChange(newStage, this.visibleAvatars)
+
+    // For stages 1-4, trigger a random animation for each visible avatar
+    if (newStage > 0 && window.animationData && window.animationData.actions && window.animationManager) {
+      const excludedAnimations = ['Catwalk away', 'Thriller', 'Jump down'];
+      const animationActions = Array.from(window.animationData.actions.values()).filter(clip => !excludedAnimations.includes(clip.name));
+      this.visibleAvatars.forEach(avatarIndex => {
+        const randomClip = animationActions[Math.floor(Math.random() * animationActions.length)];
+        // Randomly decide rotation direction (clockwise or counterclockwise)
+        const rotationDirection = Math.random() > 0.5 ? 1 : -1;
+        window.animationManager.playAnimationOnAvatar(avatarIndex, randomClip, rotationDirection);
+      });
+    }
   }
 
   setupKeyboardControls() {

@@ -64,7 +64,7 @@ export class AnimationManager {
   }
 
   // Play animation on a specific avatar
-  playAnimationOnAvatar(avatarIndex, animationClip) {
+  playAnimationOnAvatar(avatarIndex, animationClip, rotationDirection = 1) {
     const meshName = `avatar${avatarIndex}`
     const mixer = this.mixers[avatarIndex - 1]
     
@@ -74,7 +74,8 @@ export class AnimationManager {
       hasMesh: !!this.meshes[meshName],
       hasMixer: !!mixer,
       hasAnimationClip: !!animationClip,
-      meshVisible: this.meshes[meshName] ? this.meshes[meshName].visible : false
+      meshVisible: this.meshes[meshName] ? this.meshes[meshName].visible : false,
+      rotationDirection
     })
     
     if (!this.meshes[meshName] || !mixer || !animationClip) {
@@ -105,7 +106,13 @@ export class AnimationManager {
     action.timeScale = this.avatarParams.playbackSpeed
     action.play()
 
-    console.log(`Successfully played animation on avatar ${avatarIndex}`)
+    // Apply rotation direction to the avatar
+    if (this.meshes[meshName]) {
+      this.meshes[meshName].rotation.y = 0; // Reset rotation
+      this.meshes[meshName].userData.rotationDirection = rotationDirection;
+    }
+
+    console.log(`Successfully played animation on avatar ${avatarIndex} with rotation direction ${rotationDirection}`)
 
     // Store which animation this avatar is playing
     this.avatarAnimations.set(avatarIndex, animationClip)

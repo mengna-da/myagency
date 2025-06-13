@@ -16,6 +16,7 @@ const mixers = [] //animation storage
 const scene = new THREE.Scene()
 const controls = new OrbitControls(camera, renderer.domElement)
 const gui = new GUI()
+gui.domElement.style.display = 'none' // Hide GUI immediately after creation
 
 // Make availableAnimations globally accessible
 window.availableAnimations = []
@@ -270,29 +271,14 @@ function animate(){
     mixer.update(delta)
   }
   
-  if (meshes.avatar1){ //make rotation happen only after the model is loaded
-    meshes.avatar1.rotation.y -= 0.002
+  // Update rotation for all avatars based on their stored rotation direction
+  for (let i = 1; i <= 8; i++) {
+    const meshName = `avatar${i}`;
+    if (meshes[meshName] && meshes[meshName].visible) {
+      const rotationDirection = meshes[meshName].userData.rotationDirection || -1; // Default to counterclockwise if not set
+      meshes[meshName].rotation.y += 0.002 * rotationDirection;
+    }
   }
-  if (meshes.avatar2) {
-    meshes.avatar2.rotation.y -= 0.002
-  }
-  if (meshes.avatar3){
-    meshes.avatar3.rotation.y -= 0.002
-  }
-  if (meshes.avatar4){
-    meshes.avatar4.rotation.y -= 0.002
-  }
-  if (meshes.avatar5){
-    meshes.avatar5.rotation.y -= 0.002
-  }
-  if (meshes.avatar6){
-    meshes.avatar6.rotation.y -= 0.002
-  }
-  if (meshes.avatar7){
-    meshes.avatar7.rotation.y -= 0.002
-  }
-  if (meshes.avatar8){
-    meshes.avatar8.rotation.y -= 0.002
-  }
+
   renderer.render(scene, camera)
 }

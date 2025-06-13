@@ -39,6 +39,9 @@ let collectiveChoices = {
   totalVotes: 0
 };
 
+// Track current stage
+let currentStage = 0;
+
 // // --- Deno KV Setup for Shared State ---
 
 // // Open the Deno KV database
@@ -97,8 +100,17 @@ let collectiveChoices = {
 io.on("connection", (socket) => {
   console.log("We have a new client: " + socket.id);
   
-  // Send current collective choices to new clients
+  // Send current state to new clients
   socket.emit('updateCollectiveChoices', collectiveChoices);
+  socket.emit('stageUpdate', currentStage);
+  
+  // Handle stage changes
+  socket.on('stageChange', (stage) => {
+    console.log("[Server] Stage change:", stage);
+    currentStage = stage;
+    // Broadcast stage update to all clients
+    io.emit('stageUpdate', stage);
+  });
   
   // Handle choice selection from mobile users
   socket.on('makeChoice', (choice) => {
