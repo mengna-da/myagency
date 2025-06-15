@@ -4,8 +4,8 @@ import { io } from 'https://cdn.socket.io/4.8.1/socket.io.esm.min.js';
 import { options, buttonsPerSet } from './options.js';
 
 // Initialize socket
-//const socket = io();
-const socket = io('http://localhost:3000'); //for local development
+const socket = io();
+// const socket = io('http://localhost:3000'); //for local development
 
 document.addEventListener('DOMContentLoaded', function() {
     const choiceContainer = document.querySelector('.choice-container');
