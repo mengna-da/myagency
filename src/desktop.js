@@ -52,8 +52,8 @@ window.speechSynthesis.onvoiceschanged = function() {
 };
 
 // Initialize socket
-//const socket = io();
-const socket = io('http://localhost:3000'); //for local development
+const socket = io();
+// const socket = io('http://localhost:3000'); //for local development
 window.socket = socket; // Make socket available globally
 
 // Function to handle stage updates
