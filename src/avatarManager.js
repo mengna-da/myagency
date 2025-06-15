@@ -3,7 +3,7 @@
 // import * as THREE from 'three'
 
 // Deno-compatible imports
-import Model from './Model.js'
+import Model from './model.js'
 import * as THREE from 'https://esm.sh/three@0.177.0'
 
 export class AvatarManager {
