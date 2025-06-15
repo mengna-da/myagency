@@ -1,6 +1,6 @@
-//Importing all our different loaders and materials
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler'
+// Deno-compatible imports
+import { GLTFLoader } from 'https://esm.sh/three@0.177.0/examples/jsm/loaders/GLTFLoader.js'
+import { MeshSurfaceSampler } from 'https://esm.sh/three@0.177.0/examples/jsm/math/MeshSurfaceSampler.js'
 import {
 	Color,
 	AnimationMixer,
@@ -15,7 +15,7 @@ import {
 	MeshBasicMaterial,
 	Group,
 	Mesh,
-} from 'three'
+} from 'https://esm.sh/three@0.177.0'
 
 //create our class, we're using a class since this is a modular template for loading various models
 export default class Model {

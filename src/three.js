@@ -1,11 +1,22 @@
-import * as THREE from 'three'
-import {addLight} from './addDefaultLight'
-import { HDRI } from './environment'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js'
-import { StageManager } from './stageManager'
-import { AvatarManager } from './avatarManager'
-import { AnimationManager } from './animationManager'
+// Original imports
+// import * as THREE from 'three'
+// import {addLight} from './addDefaultLight'
+// import { HDRI } from './environment'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+// import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js'
+// import { StageManager } from './stageManager'
+// import { AvatarManager } from './avatarManager'
+// import { AnimationManager } from './animationManager'
+
+// Deno-compatible imports
+import * as THREE from 'https://esm.sh/three@0.177.0'
+import {addLight} from './addDefaultLight.js'
+import { HDRI } from './environment.js'
+import { OrbitControls } from 'https://esm.sh/three@0.177.0/examples/jsm/controls/OrbitControls.js'
+import { GUI } from 'https://esm.sh/three@0.177.0/examples/jsm/libs/lil-gui.module.min.js'
+import { StageManager } from './stageManager.js'
+import { AvatarManager } from './avatarManager.js'
+import { AnimationManager } from './animationManager.js'
 
 const renderer = new THREE.WebGLRenderer({antialias: true})
 const clock = new THREE.Clock()

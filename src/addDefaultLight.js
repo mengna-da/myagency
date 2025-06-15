@@ -1,4 +1,5 @@
-import {DirectionalLight, AmbientLight, Group} from 'three'
+// Deno-compatible import
+import {DirectionalLight, AmbientLight, Group} from 'https://esm.sh/three@0.177.0'
 
 export const addLight = () => {
     // Create a group to hold all lights

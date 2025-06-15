@@ -1,5 +1,10 @@
-import Model from './Model'
-import * as THREE from 'three'
+// Original imports
+// import Model from './Model'
+// import * as THREE from 'three'
+
+// Deno-compatible imports
+import Model from './Model.js'
+import * as THREE from 'https://esm.sh/three@0.177.0'
 
 export class AvatarManager {
   constructor(scene, meshes, mixers, avatarParams) {

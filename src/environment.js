@@ -1,5 +1,10 @@
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
-import { EquirectangularReflectionMapping } from 'three'
+// Original imports
+// import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
+// import { EquirectangularReflectionMapping } from 'three'
+
+// Deno-compatible imports
+import { RGBELoader } from 'https://esm.sh/three@0.177.0/examples/jsm/loaders/RGBELoader.js'
+import { EquirectangularReflectionMapping } from 'https://esm.sh/three@0.177.0'
 
 export function HDRI (){
     const rgbeLoader= new RGBELoader()
