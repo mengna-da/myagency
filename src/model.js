@@ -32,17 +32,18 @@ export default class Model {
 		this.animations = obj.animationState || false
 		this.replaceMaterials = obj.replace || false
 		this.visible = obj.visible || false
-		//another expression that may not be super common, ? : is typical for ternary operators, again lets us conditionally set states, this looks like (true false statement) ? if true do this : else do this. -> obj.replaceURL is passed in it evaluates to true since it's not undefined or null so then we do the first line aka this.textureLoader.load(`${obj.replaceURL}`), if not then we use our default /mat.png
-		//Why do we do this ternary operator? Well if obj.replaceURL isn't passed in we don't want to try and set our matcap to a value that doesn't exist, this way we only set it to the replaceURL if it exists otherwise we go to a fallback value
-		this.defaultMatcap = obj.replaceURL
-			? this.textureLoader.load(`${obj.replaceURL}`)
-			: this.textureLoader.load('/mat.png')
+		// Commented out mat.png and 10.png logic, using default materials instead
+		// this.defaultMatcap = obj.replaceURL
+		// 	? this.textureLoader.load(`${obj.replaceURL}`)
+		// 	: this.textureLoader.load('/mat.png')
+		this.defaultMatcap = null; // No matcap by default
 
+		// this.defaultParticle = obj.particleURL
+		// 	? this.textureLoader.load(`${obj.particleURL}`)
+		// 	: this.textureLoader.load('/10.png')
+		this.defaultParticle = null; // No particle texture by default
 		this.mixer = null
 		this.mixers = obj.mixers
-		this.defaultParticle = obj.particleURL
-			? this.textureLoader.load(`${obj.particleURL}`)
-			: this.textureLoader.load('/10.png')
 		this.scale = obj.scale || new Vector3(1, 1, 1)
 		this.position = obj.position || new Vector3(0, 0, 0)
 		this.rotation = obj.rotation || new Vector3(0, 0, 0)
@@ -60,10 +61,10 @@ export default class Model {
 			this.mesh = gltf.scene.children[0]
 			//if we set replace to true then we try to look through every element in our obj and change anything that's a material to our new material
 			if (this.replaceMaterials) {
-				const replacementMaterial = new MeshMatcapMaterial({
-					matcap: this.defaultMatcap,
-				})
-				//intuitive naming, we traverse through every element and for each check if it's a mesh, if it's a mesh it must have a material and we sub it out for our new material
+				// const replacementMaterial = new MeshMatcapMaterial({
+				// 	matcap: this.defaultMatcap,
+				// })
+				const replacementMaterial = new MeshBasicMaterial({ color: 0xffffff }); // Use a basic white material
 				gltf.scene.traverse((child) => {
 					if (child.isMesh) {
 						child.material = replacementMaterial
@@ -171,11 +172,19 @@ export default class Model {
 			'color',
 			new Float32BufferAttribute(particleColors, 3)
 		)
+		// Commented out alphaMap and related properties
+		// const pointsMaterial = new PointsMaterial({
+		// 	vertexColors: true,
+		// 	transparent: true,
+		// 	alphaMap: this.defaultParticle,
+		// 	alphaTest: 0.001,
+		// 	depthWrite: false,
+		// 	blending: AdditiveBlending,
+		// 	size: 0.12,
+		// })
 		const pointsMaterial = new PointsMaterial({
 			vertexColors: true,
 			transparent: true,
-			alphaMap: this.defaultParticle,
-			alphaTest: 0.001,
 			depthWrite: false,
 			blending: AdditiveBlending,
 			size: 0.12,
