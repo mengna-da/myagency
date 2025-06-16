@@ -15,8 +15,7 @@ body {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #FF00CC;
     font-size: 2rem;
-    margin-bottom: 20px;
-    margin-top: 0;
+    margin-top: -50px;
     text-align: center;
     padding: 0 20px;
 }
@@ -119,5 +118,37 @@ body {
     .choice-container {
         height: 75vh;
         gap: 15px;
+    }
+}
+
+.refresh-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: -120px;
+}
+
+.refresh-button {
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-family: "Space Mono", monospace;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px #BFFF04;
+}
+
+.refresh-button:hover {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px #BFFF04;
+}
+
+@media (max-width: 480px) {
+    .refresh-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
     }
 }

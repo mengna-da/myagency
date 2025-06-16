@@ -95,4 +95,10 @@ document.addEventListener('DOMContentLoaded', function() {
     socket.on('updateCollectiveChoices', (data) => {
         console.log('Received collective choices update:', data);
     });
+
+    // Add refresh button functionality
+    const refreshButton = document.querySelector('.refresh-button');
+    refreshButton.addEventListener('click', () => {
+        window.location.reload();
+    });
 }); 
