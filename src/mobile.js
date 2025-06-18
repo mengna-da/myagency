@@ -26,21 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const randomOption = getRandomOption();
             button.setAttribute('data-choice', randomOption);
             button.textContent = randomOption;
-            
-            button.addEventListener('click', () => {
-                let isSelected = button.classList.contains('selected');
-                if (isSelected) {
-                    button.classList.remove('selected');
-                    console.log('Deselected choice:', randomOption);
-                } else {
-                    button.classList.add('selected');
-                    console.log('Selected choice:', randomOption);
-                    
-                    // Send choice to server immediately
-                    console.log('Sending choice to server:', randomOption);
-                    socket.emit('makeChoice', randomOption);
-                }
-            });
             container.appendChild(button);
         }
         return container;
@@ -54,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create a ton of sets
         const firstSet = createButtonSet();
         choiceRow.appendChild(firstSet);
-    
+
         choiceContainer.appendChild(choiceRow);
     }
     
