@@ -15,12 +15,16 @@ let currentBannerText = '';
 let bannerTimeout = null;
 let currentStage = 0; // Add stage tracking
 
+// Get available voices and find Fred
+const voices = window.speechSynthesis.getVoices();
+const maleVoice = voices.find(voice => voice.name === 'Fred');
+
 // Function to speak text
 function speakText(text) {
     // Only speak if the text is different from current banner text
     if (text !== currentBannerText) {
         // Cancel any ongoing speech
-        window.speechSynthesis.cancel();
+        // window.speechSynthesis.cancel();
         
         // Create a new speech utterance
         const utterance = new SpeechSynthesisUtterance(text);
@@ -29,10 +33,6 @@ function speakText(text) {
         utterance.rate = speechConfig.rate;
         utterance.pitch = speechConfig.pitch;
         utterance.volume = speechConfig.volume;
-        
-        // Get available voices and find Fred
-        const voices = window.speechSynthesis.getVoices();
-        const maleVoice = voices.find(voice => voice.name === 'Fred');
         
         if (maleVoice) {
             utterance.voice = maleVoice;
