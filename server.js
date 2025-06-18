@@ -42,17 +42,17 @@ const CHOICES_KEY = ["collective_choices"]; // Define a key for our data in KV
 const STAGE_KEY = ["current_stage"]; // Define a key for stage tracking
 
 // Function to get the current collective choices from KV
-async function getCollectiveChoices() {
-    const entry = await kv.get(CHOICES_KEY);
-    // Return the value if it exists, otherwise return the initial state structure
-    return entry.value || { choices: [], totalVotes: 0 };
-}
+// async function getCollectiveChoices() {
+//     const entry = await kv.get(CHOICES_KEY);
+//     // Return the value if it exists, otherwise return the initial state structure
+//     return entry.value || { choices: [], totalVotes: 0 };
+// }
 
 // Function to set the collective choices in KV
-async function setCollectiveChoices(state) {
-    // Use an atomic transaction for safer writes (optional but good practice for preventing race conditions)
-    await kv.atomic().set(CHOICES_KEY, state).commit();
-}
+// async function setCollectiveChoices(state) {
+//     // Use an atomic transaction for safer writes (optional but good practice for preventing race conditions)
+//     await kv.atomic().set(CHOICES_KEY, state).commit();
+// }
 
 // Function to get the current stage from KV
 async function getCurrentStage() {
@@ -68,29 +68,29 @@ async function setCurrentStage(stage) {
 
 // Start watching the KV keys for changes made by clients on other instances.
 // When a change is detected in KV, this instance will broadcast it to its connected clients.
-async function watchChoices() {
-    console.log("Starting KV watch for collective choices...");
-    // Watch the specific key
-    const watcher = kv.watch([CHOICES_KEY]);
-    // Loop through the changes as they occur
-    for await (const entries of watcher) {
-        const latestEntry = entries[0];
-        // If the entry exists and has a value, it means the state was updated in KV
-        if (latestEntry && latestEntry.value !== null) {
-            // console.log("KV change detected, broadcasting update to local clients.");
-            // Broadcast the latest state from KV to all clients connected to THIS instance
-            // This ensures clients on this instance get updates from changes made on other instances.
-            // io.emit('updateCollectiveChoices', latestEntry.value);
-            // let collectiveChoices = latestEntry.value;  
-        } else {
-             // This case might handle initial null state or if the key is deleted.
-             // Fetching and broadcasting the current state from KV is a safe fallback.
-            //  console.log("KV key status changed (deleted or null), fetching latest state.");
-            //  const currentState = await getCollectiveChoices(); // Fetch the latest state just in case
-            //  io.emit('updateCollectiveChoices', currentState);
-        }
-    }
-}
+// async function watchChoices() {
+//     console.log("Starting KV watch for collective choices...");
+//     // Watch the specific key
+//     const watcher = kv.watch([CHOICES_KEY]);
+//     // Loop through the changes as they occur
+//     for await (const entries of watcher) {
+//         const latestEntry = entries[0];
+//         // If the entry exists and has a value, it means the state was updated in KV
+//         if (latestEntry && latestEntry.value !== null) {
+//             // console.log("KV change detected, broadcasting update to local clients.");
+//             // Broadcast the latest state from KV to all clients connected to THIS instance
+//             // This ensures clients on this instance get updates from changes made on other instances.
+//             // io.emit('updateCollectiveChoices', latestEntry.value);
+//             // let collectiveChoices = latestEntry.value;  
+//         } else {
+//              // This case might handle initial null state or if the key is deleted.
+//              // Fetching and broadcasting the current state from KV is a safe fallback.
+//             //  console.log("KV key status changed (deleted or null), fetching latest state.");
+//             //  const currentState = await getCollectiveChoices(); // Fetch the latest state just in case
+//             //  io.emit('updateCollectiveChoices', currentState);
+//         }
+//     }
+// }
 
 // Watch for stage changes
 async function watchStage() {
@@ -111,7 +111,7 @@ async function watchStage() {
 
 // Call the watch functions to start the listeners.
 // We don't await them because they're continuous loops.
-watchChoices().catch(console.error); // Catch any errors in the watch loop
+// watchChoices().catch(console.error); // Catch any errors in the watch loop
 watchStage().catch(console.error); // Catch any errors in the stage watch loop
 
 // --- End Deno KV Setup ---
@@ -122,7 +122,7 @@ io.on("connection", async (socket) => { // Make the connection handler async to 
   console.log("We have a new client: " + socket.id);
   
   // Send current state to new clients (fetched from KV)
-  const currentChoices = await getCollectiveChoices();
+  // const currentChoices = await getCollectiveChoices();
   const currentStage = await getCurrentStage();
   // socket.emit('updateCollectiveChoices', currentChoices);
   socket.emit('stageUpdate', currentStage);
