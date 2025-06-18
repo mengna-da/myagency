@@ -181,7 +181,7 @@ function removeAndUpdateTopChoice(topChoice) {
         currentBannerText = ""
     }
     // Emit the top choice to be removed from server
-    socket.emit('removeTopChoice', topChoice.choice);
+    // socket.emit('removeTopChoice', topChoice.choice);
 
     updateChoicesDisplay();
     updateBannerWithTopChoice();
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 bannerTimeout = null;
             }
             // Emit reset event to server
-            socket.emit('resetChoices');
+            // socket.emit('resetChoices');
         }
     });
 }); 
