@@ -1,5 +1,5 @@
-// LAST UPDATED 20250614
-// 20250612 CHANGED FROM DENO KV TO LOCAL STORAGE
+// LAST UPDATED 20250619
+// 20250614 CHANGED FROM DENO KV TO LOCAL STORAGE
 
 import express from 'express';
 import { createServer } from 'node:http';
@@ -102,7 +102,7 @@ io.on("connection", (socket) => {
   console.log("We have a new client: " + socket.id);
   
   // Send current state to new clients
-  socket.emit('updateCollectiveChoices', collectiveChoices);
+  // socket.emit('updateCollectiveChoices', collectiveChoices);
   socket.emit('stageUpdate', currentStage);
   
   // Handle stage changes
@@ -122,8 +122,9 @@ io.on("connection", (socket) => {
     collectiveChoices.choices.push(choice);
     collectiveChoices.totalVotes++;
     
-    // Broadcast updated choices to all clients
-    io.emit('updateCollectiveChoices', collectiveChoices);
+    // Broadcast latest choice
+    let latestChoice = collectiveChoices.choices[collectiveChoices.choices.length - 1];
+    io.emit('broadcastLatestChoice', latestChoice);
   });
   
   // Handle removing top choice
@@ -138,9 +139,6 @@ io.on("connection", (socket) => {
     collectiveChoices.totalVotes = collectiveChoices.choices.length;
     
     console.log("[Server] Votes after removal:", collectiveChoices.choices.length);
-    
-    // Broadcast updated choices to all clients
-    io.emit('updateCollectiveChoices', collectiveChoices);
   });
   
   // Handle reset request
@@ -150,7 +148,7 @@ io.on("connection", (socket) => {
       choices: [],
       totalVotes: 0
     };
-    io.emit('updateCollectiveChoices', collectiveChoices);
+    // io.emit('updateCollectiveChoices', collectiveChoices);
   });
   
   //Listen for this client to disconnect

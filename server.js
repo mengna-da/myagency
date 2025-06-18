@@ -80,13 +80,16 @@ async function watchChoices() {
             console.log("KV change detected, broadcasting update to local clients.");
             // Broadcast the latest state from KV to all clients connected to THIS instance
             // This ensures clients on this instance get updates from changes made on other instances.
-            io.emit('updateCollectiveChoices', latestEntry.value);
+            // io.emit('updateCollectiveChoices', latestEntry.value);
+            let collectiveChoices = latestEntry.value;  
+            let latestChoice = collectiveChoices.choices[collectiveChoices.choices.length - 1];
+            io.emit('broadcastLatestChoice', latestChoice);
         } else {
              // This case might handle initial null state or if the key is deleted.
              // Fetching and broadcasting the current state from KV is a safe fallback.
              console.log("KV key status changed (deleted or null), fetching latest state.");
              const currentState = await getCollectiveChoices(); // Fetch the latest state just in case
-             io.emit('updateCollectiveChoices', currentState);
+            //  io.emit('updateCollectiveChoices', currentState);
         }
     }
 }
