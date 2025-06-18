@@ -83,7 +83,9 @@ async function watchChoices() {
             // io.emit('updateCollectiveChoices', latestEntry.value);
             let collectiveChoices = latestEntry.value;  
             let latestChoice = collectiveChoices.choices[collectiveChoices.choices.length - 1];
-            io.emit('broadcastLatestChoice', latestChoice);
+            if (latestChoice) {
+              io.emit('broadcastLatestChoice', latestChoice);
+            }
         } else {
              // This case might handle initial null state or if the key is deleted.
              // Fetching and broadcasting the current state from KV is a safe fallback.
