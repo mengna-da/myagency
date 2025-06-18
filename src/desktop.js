@@ -24,7 +24,7 @@ function speakText(text) {
     // Only speak if the text is different from current banner text
     if (text !== currentBannerText) {
         // Cancel any ongoing speech
-        // window.speechSynthesis.cancel();
+        window.speechSynthesis.cancel();
         
         // Create a new speech utterance
         const utterance = new SpeechSynthesisUtterance(text);
@@ -117,8 +117,9 @@ function updateBannerWithTopChoice() {
         }
         return prev;
     });
+
     // Only update banner and reset timeout if the top choice has changed
-    if (currentBannerText !== topChoice.choice) {
+    if (currentBannerText !== topChoice.choice && !bannerTimeout) {
         // Update the banner with the top choice
         elements.topMarquee.innerHTML = `<span>${topChoice.choice}</span><span>${topChoice.choice}</span>`;
         // Announce the top choice
@@ -160,10 +161,17 @@ function updateBannerWithTopChoice() {
             });
         }
 
-        // Set new timeout
+        // New Top Choice timeout
         bannerTimeout = setTimeout(() => {
+            bannerTimeout = null;
+            updateBannerWithTopChoice();
+        }, 5000);
+        
+        // Remove timeout
+        setTimeout(() => {
             removeAndUpdateTopChoice(topChoice);
         }, 15000);
+
         // Mark top choice as queued to remove
         topChoice.willRemove = true;
     }
