@@ -97,7 +97,7 @@ function updateChoicesDisplay() {
         const card = document.createElement('div');
         card.className = 'choice-card';
         card.innerHTML = `
-            <div class="choice-button">${item.choice}</div>
+            <div class="choice-button${item.willRemove ? " will-remove" : ""}">${item.choice}</div>
             <div class="choice-count">x ${item.count}</div>
         `;
         elements.choicesContainer.appendChild(card);
@@ -159,30 +159,27 @@ function updateBannerWithTopChoice() {
                 hasStageManager: !!window.stageManager
             });
         }
-        // Clear any existing timeout
-        if (bannerTimeout) {
-            clearTimeout(bannerTimeout);
-        }
+
         // Set new timeout
         bannerTimeout = setTimeout(() => {
-            removeAndUpdateTopChoice();
+            removeAndUpdateTopChoice(topChoice);
         }, 15000);
+        // Mark top choice as queued to remove
+        topChoice.willRemove = true;
     }
     updateChoicesDisplay();
 }
 
 // Function to remove and update the top choice
-function removeAndUpdateTopChoice() {
-    if (currentChoices.length === 0) {
-        return;
+function removeAndUpdateTopChoice(topChoice) {
+    console.log("remove:", topChoice)
+    let indexToRemove = currentChoices.findIndex(choice => choice === topChoice);
+    if (indexToRemove !== -1) {
+        currentChoices.splice(indexToRemove, 1); // Removes 1 element starting from indexToRemove
     }
-    // Find the current top choice
-    const topChoice = currentChoices.reduce((prev, current) => {
-        if (current.count > prev.count) {
-            return current;
-        }
-        return prev;
-    });
+    if (currentBannerText === topChoice.choice) {
+        currentBannerText = ""
+    }
     // Emit the top choice to be removed from server
     socket.emit('removeTopChoice', topChoice.choice);
 }
@@ -208,16 +205,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Handle stage-based behavior
         if (currentStage === 0) {
-            // Original voting system for stage 0
-            const choiceMap = new Map();
-            data.choices.forEach(choice => {
-                if (!choiceMap.has(choice)) {
-                    choiceMap.set(choice, { choice, count: 0 });
+
+            let latest_choice = data.choices[data.choices.length - 1];
+            if (latest_choice){
+                let existing_choice = currentChoices.find((choice)=>{
+                    return choice.choice === latest_choice;
+                });
+                if (!existing_choice) {
+                    existing_choice = {choice: latest_choice, count: 0}
+                    currentChoices.push(existing_choice)
                 }
-                choiceMap.get(choice).count++;
-            });
+                existing_choice.count++;
+            }
             
-            currentChoices = Array.from(choiceMap.values());
             updateChoicesDisplay();
             updateBannerWithTopChoice();
         } else {
