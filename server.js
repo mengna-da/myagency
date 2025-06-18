@@ -128,7 +128,7 @@ io.on("connection", async (socket) => { // Make the connection handler async to 
   // Send current state to new clients (fetched from KV)
   const currentChoices = await getCollectiveChoices();
   const currentStage = await getCurrentStage();
-  socket.emit('updateCollectiveChoices', currentChoices);
+  // socket.emit('updateCollectiveChoices', currentChoices);
   socket.emit('stageUpdate', currentStage);
   
   // Handle stage changes
@@ -146,13 +146,13 @@ io.on("connection", async (socket) => { // Make the connection handler async to 
     // Get current state from KV
     const currentState = await getCollectiveChoices();
     console.log("[Server] Current votes:", currentState.choices.length);
-    console.log("[Server] Current state:", currentState);
     
     // Update collective choices in the state object
     currentState.choices.push(choice);
     currentState.totalVotes++;
     
     // Save the updated state back to KV
+    console.log("[Server] New state:", currentState);
     await setCollectiveChoices(currentState);
   });
   
@@ -163,6 +163,7 @@ io.on("connection", async (socket) => { // Make the connection handler async to 
     // Get current state from KV
     const currentState = await getCollectiveChoices();
     console.log("[Server] Votes before removal:", currentState.choices.length);
+    console.log("[Server] Current state:", currentState);
     
     // Remove all instances of the top choice
     currentState.choices = currentState.choices.filter(choice => choice !== topChoice);
@@ -171,6 +172,7 @@ io.on("connection", async (socket) => { // Make the connection handler async to 
     currentState.totalVotes = currentState.choices.length;
     
     console.log("[Server] Votes after removal:", currentState.choices.length);
+    console.log("[Server] New state:", currentState);
     
     // Save the updated state back to KV
     await setCollectiveChoices(currentState);
