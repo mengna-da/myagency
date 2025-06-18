@@ -146,6 +146,7 @@ io.on("connection", async (socket) => { // Make the connection handler async to 
     // Get current state from KV
     const currentState = await getCollectiveChoices();
     console.log("[Server] Current votes:", currentState.choices.length);
+    console.log("[Server] Current state:", currentState);
     
     // Update collective choices in the state object
     currentState.choices.push(choice);
