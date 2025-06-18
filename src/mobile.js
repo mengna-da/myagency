@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const choiceContainer = document.querySelector('.choice-container');
     // const confirmationMessage = document.getElementById('confirmationMessage');
     
-    // Set to track selected choices
-    let selectedChoices = new Set();
-    
     // Function to get random option
     function getRandomOption() {
         return options[Math.floor(Math.random() * options.length)];
@@ -39,14 +36,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const choiceRow = document.createElement('div');
         choiceRow.className = 'choice-row';
         
-        // Create first set
+        // Create a ton of sets
         const firstSet = createButtonSet();
         choiceRow.appendChild(firstSet);
+
+        for (let i = 0; i < 1; i++) {
+            // Clone and append set
+            const copySet = firstSet.cloneNode(true);
+            choiceRow.appendChild(copySet);
+        }
         
-        // Clone and append second set
-        const secondSet = firstSet.cloneNode(true);
-        choiceRow.appendChild(secondSet);
-        
+
         choiceContainer.appendChild(choiceRow);
     }
     
@@ -61,44 +61,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle choice button clicks
     choiceButtons.forEach(button => {
         button.addEventListener('click', () => {
+            console.log("click");
             const choice = button.getAttribute('data-choice');
-            
-            // Toggle selection
-            if (selectedChoices.has(choice)) {
-                // Deselect
-                selectedChoices.delete(choice);
+
+            let isSelected = button.classList.contains('selected');
+            if (isSelected) {
                 button.classList.remove('selected');
                 console.log('Deselected choice:', choice);
             } else {
-                // Select
-                selectedChoices.add(choice);
                 button.classList.add('selected');
                 console.log('Selected choice:', choice);
                 
                 // Send choice to server immediately
                 console.log('Sending choice to server:', choice);
                 socket.emit('makeChoice', choice);
-                
-                // // Show confirmation message briefly
-                // confirmationMessage.textContent = `You selected: ${choice}`;
-                // confirmationMessage.style.display = 'block';
-                
-                // // Hide confirmation message after 2 seconds
-                // setTimeout(() => {
-                //     confirmationMessage.style.display = 'none';
-                // }, 2000);
             }
         });
     });
-    
-    // Listen for updates from the server
-    socket.on('updateCollectiveChoices', (data) => {
-        console.log('Received collective choices update:', data);
-    });
 
     // Add refresh button functionality
-    const refreshButton = document.querySelector('.refresh-button');
-    refreshButton.addEventListener('click', () => {
-        window.location.reload();
-    });
+    // const refreshButton = document.querySelector('.refresh-button');
+    // refreshButton.addEventListener('click', () => {
+    //     window.location.reload();
+    // });
 }); 

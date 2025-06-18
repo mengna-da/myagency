@@ -21,7 +21,7 @@ export const options = [
     "Jump"
 ];
 
-export const buttonsPerSet = 10; 
+export const buttonsPerSet = 300; 
 
 // Mapping the instructions with  specific animations
 export const choiceToAnimationMap = {

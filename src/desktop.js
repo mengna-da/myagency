@@ -172,8 +172,8 @@ function updateBannerWithTopChoice() {
 
 // Function to remove and update the top choice
 function removeAndUpdateTopChoice(topChoice) {
-    console.log("remove:", topChoice)
     let indexToRemove = currentChoices.findIndex(choice => choice === topChoice);
+    console.log("remove:", topChoice, currentChoices, indexToRemove);
     if (indexToRemove !== -1) {
         currentChoices.splice(indexToRemove, 1); // Removes 1 element starting from indexToRemove
     }
@@ -182,6 +182,9 @@ function removeAndUpdateTopChoice(topChoice) {
     }
     // Emit the top choice to be removed from server
     socket.emit('removeTopChoice', topChoice.choice);
+
+    updateChoicesDisplay();
+    updateBannerWithTopChoice();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -200,19 +203,19 @@ document.addEventListener('DOMContentLoaded', function() {
         socket.emit('getCurrentStage');
     });
     
-    socket.on('updateCollectiveChoices', (data) => {
-        console.log('Choices update:', { stage: currentStage, latest: data.choices[data.choices.length - 1] });
+    socket.on('broadcastLatestChoice', (data) => {
+        let latestChoice = data;
+        console.log('Choices update:', { stage: currentStage, latest: latestChoice });
 
         // Handle stage-based behavior
         if (currentStage === 0) {
 
-            let latest_choice = data.choices[data.choices.length - 1];
-            if (latest_choice){
+            if (latestChoice){
                 let existing_choice = currentChoices.find((choice)=>{
-                    return choice.choice === latest_choice;
+                    return choice.choice === latestChoice;
                 });
                 if (!existing_choice) {
-                    existing_choice = {choice: latest_choice, count: 0}
+                    existing_choice = {choice: latestChoice, count: 0}
                     currentChoices.push(existing_choice)
                 }
                 existing_choice.count++;
@@ -222,7 +225,6 @@ document.addEventListener('DOMContentLoaded', function() {
             updateBannerWithTopChoice();
         } else {
             // Immediate response for stages 1-4
-            const latestChoice = data.choices[data.choices.length - 1];
             if (latestChoice) {
                 handleImmediateResponse(latestChoice);
             }
