@@ -86,7 +86,7 @@ async function watchStage() {
 
 // Call the watch functions to start the listeners.
 // We don't await them because they're continuous loops.
-watchChoices().catch(console.error); // Catch any errors in the watch loop
+// watchChoices().catch(console.error); // Catch any errors in the watch loop
 watchStage().catch(console.error); // Catch any errors in the stage watch loop
 
 // --- End Deno KV Setup ---
