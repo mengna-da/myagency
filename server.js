@@ -139,41 +139,41 @@ io.on("connection", async (socket) => { // Make the connection handler async to 
   socket.on('makeChoice', async (choice) => { // Make the handler async
     console.log("[Server] New choice:", choice);
     
-    // Get current state from KV
-    const currentState = await getCollectiveChoices();
-    console.log("[Server] Current votes:", currentState.choices.length);
+    // // Get current state from KV
+    // const currentState = await getCollectiveChoices();
+    // console.log("[Server] Current votes:", currentState.choices.length);
     
-    // Update collective choices in the state object
-    currentState.choices.push(choice);
-    currentState.totalVotes++;
+    // // Update collective choices in the state object
+    // currentState.choices.push(choice);
+    // currentState.totalVotes++;
     
-    // Save the updated state back to KV
-    console.log("[Server] New state:", currentState);
-    await setCollectiveChoices(currentState);
+    // // Save the updated state back to KV
+    // console.log("[Server] New state:", currentState);
+    // await setCollectiveChoices(currentState);
     
     io.emit('broadcastLatestChoice', choice);
   });
   
   // Handle removing top choice
   socket.on('removeTopChoice', async (topChoice) => { // Make the handler async
-    console.log("[Server] Removing:", topChoice);
+    // console.log("[Server] Removing:", topChoice);
     
-    // Get current state from KV
-    const currentState = await getCollectiveChoices();
-    console.log("[Server] Votes before removal:", currentState.choices.length);
-    console.log("[Server] Current state:", currentState);
+    // // Get current state from KV
+    // const currentState = await getCollectiveChoices();
+    // console.log("[Server] Votes before removal:", currentState.choices.length);
+    // console.log("[Server] Current state:", currentState);
     
-    // Remove all instances of the top choice
-    currentState.choices = currentState.choices.filter(choice => choice !== topChoice);
+    // // Remove all instances of the top choice
+    // currentState.choices = currentState.choices.filter(choice => choice !== topChoice);
     
-    // Update total votes
-    currentState.totalVotes = currentState.choices.length;
+    // // Update total votes
+    // currentState.totalVotes = currentState.choices.length;
     
-    console.log("[Server] Votes after removal:", currentState.choices.length);
-    console.log("[Server] New state:", currentState);
+    // console.log("[Server] Votes after removal:", currentState.choices.length);
+    // console.log("[Server] New state:", currentState);
     
-    // Save the updated state back to KV
-    await setCollectiveChoices(currentState);
+    // // Save the updated state back to KV
+    // await setCollectiveChoices(currentState);
   });
   
   // Handle reset request
@@ -181,10 +181,10 @@ io.on("connection", async (socket) => { // Make the connection handler async to 
     console.log("Resetting all choices");
     
     // Define the initial empty state
-    const initialState = { choices: [], totalVotes: 0 };
+    // const initialState = { choices: [], totalVotes: 0 };
     
-    // Save the initial state to KV (this effectively resets it)
-    await setCollectiveChoices(initialState);
+    // // Save the initial state to KV (this effectively resets it)
+    // await setCollectiveChoices(initialState);
   });
   
   //Listen for this client to disconnect
