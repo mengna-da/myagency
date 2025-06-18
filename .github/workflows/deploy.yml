@@ -1,9 +1,9 @@
 name: Deploy
 on:
   push:
-    branches: summer-work
+    branches: iris
   pull_request:
-    branches: summer-work
+    branches: iris
 
 jobs:
   deploy:
