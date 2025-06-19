@@ -107,7 +107,7 @@
     font-style: normal;
     font-size: 15px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 8px #FF00CC;
+    box-shadow: 0 4px 8px #FF00CCAA;
     margin-right: 15px;
     flex-shrink: 0;
     min-width: 120px;
@@ -121,8 +121,8 @@
 }
 
 .is-selected {
-    background-color: #FF00CC;
-    box-shadow: 0 4px 8px #FF00CC;
+    background-color: #FF00CCAA;
+    box-shadow: 0 4px 8px #b80093;
     color: rgba(255, 255, 255, 0.8);
 }
 
