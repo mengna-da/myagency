@@ -90,8 +90,10 @@ let currentChoices = [];
 let currentTopChoice = null;
 
 setInterval(() => {
-    updateChoicesDisplay();
-    updateBannerWithTopChoice();
+    if (currentStage === 0) {
+        updateChoicesDisplay();
+        updateBannerWithTopChoice();
+    }
 }, 500);
 
 // Function to update choices display
