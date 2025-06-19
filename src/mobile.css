@@ -9,6 +9,7 @@ body {
     overflow: hidden;
     position: relative;
     background-color: #E2E2E2;
+    touch-action: manipulation; /*Disables double tap to zoom*/
 }
 
 .h1 {
@@ -49,7 +50,7 @@ body {
     justify-content: space-between;
     gap: .7rem;
     min-width: 100%;
-    animation: scroll 400s linear infinite reverse;
+    animation: scroll 1200s linear infinite reverse;
   }
 
 @keyframes scroll {
