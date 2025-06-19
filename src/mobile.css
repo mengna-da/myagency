@@ -78,7 +78,7 @@ body {
 }
 
 .choice-button.selected {
-    transform: translateY(2px);
+    /* transform: translateY(2px); */
     background-color: #FF00CC;
     color: white;
     box-shadow: none;
