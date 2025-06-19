@@ -87,6 +87,7 @@ const elements = {
 };
 
 let currentChoices = [];
+let currentTopChoice = null;
 
 // Function to update choices display
 function updateChoicesDisplay() {
@@ -165,10 +166,6 @@ function updateBannerWithTopChoice() {
         bannerTimeout = setTimeout(() => {
             bannerTimeout = null;
             updateBannerWithTopChoice();
-
-            // Mark top choice as queued to remove
-            topChoice.isSelected = false;
-            topChoice.willRemove = true;
         }, 3000);
         
         // Remove timeout
@@ -178,6 +175,12 @@ function updateBannerWithTopChoice() {
 
         // Mark top choice as selected for style
         topChoice.isSelected = true;
+
+        // Mark prev top choice as queued to remove for style
+        currentTopChoice.isSelected = false;
+        currentTopChoice.willRemove = true;
+
+        currentTopChoice = topChoice;
     }
     updateChoicesDisplay();
 }
