@@ -115,7 +115,7 @@
 }
 
 .will-remove {
-    background-color: gray;
+    background-color: lightgray;
     box-shadow: 0 4px 8px darkgray;
     color: rgba(255, 255, 255, 0.8);
 }

@@ -177,8 +177,10 @@ function updateBannerWithTopChoice() {
         topChoice.isSelected = true;
 
         // Mark prev top choice as queued to remove for style
-        currentTopChoice.isSelected = false;
-        currentTopChoice.willRemove = true;
+        if (currentTopChoice) {
+            currentTopChoice.isSelected = false;
+            currentTopChoice.willRemove = true;
+        }
 
         currentTopChoice = topChoice;
     }
