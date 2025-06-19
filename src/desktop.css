@@ -116,13 +116,13 @@
 
 .will-remove {
     background-color: lightgray;
-    box-shadow: 0 4px 8px darkgray;
-    color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 8px black;
+    color: black;
 }
 
 .is-selected {
     background-color: #FF00CC;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 8px #FF00CC;
     color: rgba(255, 255, 255, 0.8);
 }
 
