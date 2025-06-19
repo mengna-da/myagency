@@ -97,7 +97,7 @@ function updateChoicesDisplay() {
         const card = document.createElement('div');
         card.className = 'choice-card';
         card.innerHTML = `
-            <div class="choice-button${item.willRemove ? " will-remove" : ""}${isTypedArray.isSelected ? " is-selected" : ""}">${item.choice}</div>
+            <div class="choice-button${item.willRemove ? " will-remove" : ""}${item.isSelected ? " is-selected" : ""}">${item.choice}</div>
             <div class="choice-count">x ${item.count}</div>
         `;
         elements.choicesContainer.appendChild(card);
@@ -169,7 +169,7 @@ function updateBannerWithTopChoice() {
             // Mark top choice as queued to remove
             topChoice.isSelected = false;
             topChoice.willRemove = true;
-        }, 5000);
+        }, 3000);
         
         // Remove timeout
         setTimeout(() => {
