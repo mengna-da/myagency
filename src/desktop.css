@@ -121,8 +121,8 @@
 }
 
 .is-selected {
-    background-color: gray;
-    box-shadow: 0 4px 8px darkgray;
+    background-color: #FF00CC;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.8);
     color: rgba(255, 255, 255, 0.8);
 }
 
