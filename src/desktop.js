@@ -89,6 +89,11 @@ const elements = {
 let currentChoices = [];
 let currentTopChoice = null;
 
+setInterval(() => {
+    updateChoicesDisplay();
+    updateBannerWithTopChoice();
+}, 500);
+
 // Function to update choices display
 function updateChoicesDisplay() {
     elements.choicesContainer.innerHTML = '';
@@ -165,8 +170,7 @@ function updateBannerWithTopChoice() {
         // New Top Choice timeout
         bannerTimeout = setTimeout(() => {
             bannerTimeout = null;
-            updateBannerWithTopChoice();
-        }, 3000);
+        }, 2000);
         
         // Remove timeout
         setTimeout(() => {
@@ -184,7 +188,6 @@ function updateBannerWithTopChoice() {
 
         currentTopChoice = topChoice;
     }
-    updateChoicesDisplay();
 }
 
 // Function to remove and update the top choice
@@ -200,8 +203,6 @@ function removeAndUpdateTopChoice(topChoice) {
     // Emit the top choice to be removed from server
     // socket.emit('removeTopChoice', topChoice.choice);
 
-    updateChoicesDisplay();
-    updateBannerWithTopChoice();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -238,8 +239,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 existing_choice.count++;
             }
             
-            updateChoicesDisplay();
-            updateBannerWithTopChoice();
         } else {
             // Immediate response for stages 1-4
             if (latestChoice) {

@@ -49,7 +49,7 @@ body {
     justify-content: space-between;
     gap: .7rem;
     min-width: 100%;
-    animation: scroll 1200s linear infinite reverse;
+    animation: scroll 400s linear infinite reverse;
   }
 
 @keyframes scroll {
