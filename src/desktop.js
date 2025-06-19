@@ -7,7 +7,7 @@ import { choiceToAnimationMap } from './options.js';
 const speechConfig = {
     rate: 1.0,    // Speech rate (0.1 to 10)
     pitch: 1.2,   // Speech pitch (0 to 2)
-    volume: 3.0   // Speech volume (0 to 1)
+    volume: 0.8   // Speech volume (0 to 1)
 };
 
 // Track current banner text and its vote count
