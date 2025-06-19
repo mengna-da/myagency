@@ -116,8 +116,8 @@
 
 .will-remove {
     background-color: lightgray;
-    box-shadow: 0 4px 8px black;
-    color: black;
+    box-shadow: 0 4px 8px lightgray;
+    color: gray;
 }
 
 .is-selected {
