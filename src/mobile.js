@@ -71,9 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add refresh button functionality
-    // const refreshButton = document.querySelector('.refresh-button');
-    // refreshButton.addEventListener('click', () => {
-    //     window.location.reload();
-    // });
+    //Add refresh button functionality
+    const refreshButton = document.querySelector('.refresh-button');
+    refreshButton.addEventListener('click', () => {
+        window.location.reload();
+    });
 }); 
