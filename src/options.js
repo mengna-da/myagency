@@ -1,34 +1,45 @@
 export const options = [
-    "Pose",
-    // "Sit Down",
-    // "Lie Down",
-    "Watch",
-    "Smile",
-    "Spin",
-    "Jump",
-    "Clap",
-    "Point",
-    "Shoot",
     "Wave",
-    "Punch",
+    "Spin",
+    "Reach",
+    // "Jump down",
+    // "Thriller",
+    "Fight",
+    "Look",
+    // "Catwalk away",
     "Bow",
-    "Pray",
-    "Type",
-    "Squeeze",
-    "Walk left",
-    "Walk right",
-    "Tai Chi",
-    "Disappear",
-    "Zombie Get Up",
-    // "Drink Coffee",
-    "Fold a Paper Plane",
+    "Clap",
     "Play the Puzzle",
-    "Put on Lipstick",
-    "Use Bubble Wrap",
-    // "Put on Blouser",
-    "Silly Dance"
-    // "Mess Up Hair",
-    // "Comb Hair"
+    "Pray",
+    "Shoot",
+    "Point",
+    "Play dead",
+    "Fly",
+    "Catwalk",
+    "Silly Dance",
+    "Zombie walk",
+    "Jump"
 ];
 
-export const buttonsPerSet = 10; 
+export const buttonsPerSet = 300; 
+
+// Mapping the instructions with  specific animations
+export const choiceToAnimationMap = {
+    'wave': 'wave',
+    'spin': 'spin',
+    'reach': 'reach',
+    'fight': 'fight',
+    'look': 'look',
+    'bow': 'bow',
+    'clap': 'clap',
+    // 'play the puzzle': 'puzzle',
+    'pray': 'pray',
+    'shoot': 'shoot',
+    'point': 'point',
+    'play dead': 'dead',
+    'fly': 'fly',
+    'catwalk': 'catwalk',
+    'silly dance': 'silly dance',
+    'zombie walk': 'zombie',
+    'jump': 'jump'
+};
