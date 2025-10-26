@@ -9,7 +9,7 @@ export const options = [
     // "Catwalk away",
     "Bow",
     "Clap",
-    // "Play the Puzzle",
+    "Play the Puzzle",
     "Pray",
     "Shoot",
     "Point",
