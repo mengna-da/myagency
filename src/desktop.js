@@ -1,6 +1,6 @@
 //use NPM socket package
-//import { io } from 'socket.io-client'; 
-import { io } from 'https://cdn.socket.io/4.8.1/socket.io.esm.min.js';
+import { io } from 'socket.io-client'; 
+// import { io } from 'https://cdn.socket.io/4.8.1/socket.io.esm.min.js';
 import { choiceToAnimationMap } from './options.js';
 
 // Speech synthesis configuration
@@ -50,9 +50,8 @@ window.speechSynthesis.onvoiceschanged = function() {
     // console.log('Voices loaded:', window.speechSynthesis.getVoices());
 };
 
-// Initialize socket
-const socket = io();
-// const socket = io('http://localhost:3000'); //for local development
+// Initialize socket - environment-aware connection
+const socket = io(import.meta.env.DEV ? 'http://localhost:3000' : '');
 window.socket = socket; // Make socket available globally
 
 // Function to handle stage updates

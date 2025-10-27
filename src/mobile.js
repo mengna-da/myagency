@@ -1,11 +1,15 @@
 //use NPM socket package
-//import { io } from 'socket.io-client'; 
-import { io } from 'https://cdn.socket.io/4.8.1/socket.io.esm.min.js';
+import { io } from 'socket.io-client'; 
+// use CDN to run socket 
+// import { io } from 'https://cdn.socket.io/4.8.1/socket.io.esm.min.js';
 import { options, buttonsPerSet } from './options.js';
 
 // Initialize socket
-const socket = io();
+// const socket = io();
 // const socket = io('http://localhost:3000'); //for local development
+
+// Initialize socket - environment-aware connection
+const socket = io(import.meta.env.DEV ? 'http://localhost:3000' : '');
 
 document.addEventListener('DOMContentLoaded', function() {
     const choiceContainer = document.querySelector('.choice-container');

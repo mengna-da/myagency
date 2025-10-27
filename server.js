@@ -1,4 +1,5 @@
-// 20250619 FOR DENO KV
+// LAST UPDATED 20250619
+// 20250614 CHANGED FROM DENO KV TO LOCAL STORAGE
 
 import express from 'express';
 import { createServer } from 'node:http';
@@ -33,69 +34,68 @@ const io = new Server(server, {
   }
 });
 
-// --- Deno KV Setup for Shared State ---
+// Instead of Deno KV setup, store the collective choices locally
+let collectiveChoices = {
+  choices: [],
+  totalVotes: 0
+};
 
-// Open the Deno KV database
-// Deno KV is available globally in Deno Deploy with zero setup.
-const kv = await Deno.openKv();
-const STAGE_KEY = ["current_stage"]; // Define a key for stage tracking
-
-// Function to get the current stage from KV
-async function getCurrentStage() {
-    const entry = await kv.get(STAGE_KEY);
-    // Return the value if it exists, otherwise return 0
-    return entry.value || 0;
-}
-
-// Function to set the current stage in KV
-async function setCurrentStage(stage) {
-    await kv.atomic().set(STAGE_KEY, stage).commit();
-}
-
-// Watch for stage changes
-async function watchStage() {
-    console.log("Starting KV watch for stage changes...");
-    const watcher = kv.watch([STAGE_KEY]);
-    for await (const entries of watcher) {
-        const latestEntry = entries[0];
-        if (latestEntry && latestEntry.value !== null) {
-            console.log("Stage KV change detected, broadcasting update to local clients.");
-            io.emit('stageUpdate', latestEntry.value);
-        } else {
-            console.log("Stage KV key status changed, fetching latest state.");
-            const currentStage = await getCurrentStage();
-            io.emit('stageUpdate', currentStage);
-        }
-    }
-}
-
-// Call the watch functions to start the listeners.
-// We don't await them because they're continuous loops.
-watchStage().catch(console.error); // Catch any errors in the stage watch loop
-
-// --- End Deno KV Setup ---
+// Track current stage
+let currentStage = 0;
 
 // Socket connection
-io.on("connection", async (socket) => { // Make the connection handler async to use await
+
+io.on("connection", (socket) => {
   console.log("We have a new client: " + socket.id);
   
-  // Send current state to new clients (fetched from KV)
-  const currentStage = await getCurrentStage();
+  // Send current state to new clients
+  // socket.emit('updateCollectiveChoices', collectiveChoices);
   socket.emit('stageUpdate', currentStage);
   
   // Handle stage changes
-  socket.on('stageChange', async (stage) => { // Make the handler async
+  socket.on('stageChange', (stage) => {
     console.log("[Server] Stage change:", stage);
-    
-    // Save the stage to KV
-    await setCurrentStage(stage);
+    currentStage = stage;
+    // Broadcast stage update to all clients
+    io.emit('stageUpdate', stage);
   });
   
   // Handle choice selection from mobile users
-  socket.on('makeChoice', async (choice) => { // Make the handler async
+  socket.on('makeChoice', (choice) => {
     console.log("[Server] New choice:", choice);
+    console.log("[Server] Current votes:", collectiveChoices.choices.length);
     
-    io.emit('broadcastLatestChoice', choice);
+    // Update collective choices
+    collectiveChoices.choices.push(choice);
+    collectiveChoices.totalVotes++;
+    
+    // Broadcast latest choice
+    let latestChoice = collectiveChoices.choices[collectiveChoices.choices.length - 1];
+    io.emit('broadcastLatestChoice', latestChoice);
+  });
+  
+  // Handle removing top choice
+  socket.on('removeTopChoice', (topChoice) => {
+    console.log("[Server] Removing:", topChoice);
+    console.log("[Server] Votes before removal:", collectiveChoices.choices.length);
+    
+    // Remove all instances of the top choice
+    collectiveChoices.choices = collectiveChoices.choices.filter(choice => choice !== topChoice);
+    
+    // Update total votes
+    collectiveChoices.totalVotes = collectiveChoices.choices.length;
+    
+    console.log("[Server] Votes after removal:", collectiveChoices.choices.length);
+  });
+  
+  // Handle reset request
+  socket.on('resetChoices', () => {
+    console.log("Resetting all choices");
+    collectiveChoices = {
+      choices: [],
+      totalVotes: 0
+    };
+    // io.emit('updateCollectiveChoices', collectiveChoices);
   });
   
   //Listen for this client to disconnect
@@ -103,6 +103,7 @@ io.on("connection", async (socket) => { // Make the connection handler async to 
     console.log("A client has disconnected: " + socket.id);
   });
 });
+
 
 server.listen(port, () => {
   console.log(`Server listening on port: ${port}`);
