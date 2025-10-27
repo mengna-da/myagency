@@ -20,7 +20,7 @@ export class AvatarManager {
       name: `avatar${index}`,
       scene: this.scene,
       meshes: this.meshes,
-      url: '/public/20animations.glb',
+      url: '/20animations.glb',
       scale: new THREE.Vector3(
         this.avatarParams.scaleX,
         this.avatarParams.scaleY,
