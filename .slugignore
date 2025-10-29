@@ -1,0 +1,10 @@
+# Ignore source files and development artifacts to reduce slug size
+src/
+public/
+*.md
+.git/
+.gitignore
+vite.config.js
+README.md
+server_backup_*.js
+

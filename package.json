@@ -6,11 +6,16 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "npm run build"
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
   },
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Interactive 3D avatar installation with Socket.io",
   "dependencies": {
     "express": "^4.21.1",
     "socket.io": "^4.8.1",
