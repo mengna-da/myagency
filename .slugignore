@@ -1,10 +1,7 @@
-# Ignore source files and development artifacts to reduce slug size
-src/
-public/
+# Only ignore files that are truly not needed after build
+# NOTE: Do NOT ignore src/ or public/ as they're needed for the build process
 *.md
-.git/
-.gitignore
-vite.config.js
-README.md
 server_backup_*.js
+.vscode/
+.DS_Store
 

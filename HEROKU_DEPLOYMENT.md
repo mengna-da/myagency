@@ -89,12 +89,17 @@ heroku restart
 
 ## What Happens During Deployment
 
-1. **Build Phase**:
+1. **Slug Preparation**:
+   - Files matching `.slugignore` patterns are removed
+   - **IMPORTANT**: `src/` and `public/` are kept because Vite needs them for building
+
+2. **Build Phase**:
    - Heroku installs dependencies: `npm install`
    - Runs `heroku-postbuild` script: `npm run build`
-   - Creates optimized `dist/` folder with Vite
+   - Vite compiles `src/` files and copies `public/` assets into `dist/`
+   - Creates optimized `dist/` folder
 
-2. **Runtime Phase**:
+3. **Runtime Phase**:
    - Starts server: `node server.js`
    - Server listens on Heroku's assigned `PORT`
    - Serves static files from `dist/`
